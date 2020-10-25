@@ -33,11 +33,11 @@ The map could be like {'$dynamic_src': '/Users/home/my_dyn_src',
 '''
 
 
-def copy_files_by_xml(xml_path, place_holder_map=None):
+def copy_files_by_xml(xml_path, place_holder_map=None, overwrite_if_exists = False):
     if place_holder_map is None:
         place_holder_map = {}
     xml = xh.read_xml_file(xml_path)
-    file_manipulator.manipulate(xml_path, xml, place_holder_map)
+    file_manipulator.manipulate(xml_path, xml, place_holder_map, overwrite_if_exists)
 
 
 '''
