@@ -1,5 +1,6 @@
 import os_xml_handler.xml_handler as xh
-import os_file_automation_bp.xml_file_copier_bp as bp
+
+from os_file_automation import bp
 
 '''
 Will copy files/directories defined by an xml map file.
