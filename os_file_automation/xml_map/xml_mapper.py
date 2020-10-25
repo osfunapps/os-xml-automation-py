@@ -83,6 +83,3 @@ def set_texts_by_xml(xml_path, place_holder_map=None):
         place_holder_map = {}
     xml = xh.read_xml_file(xml_path)
     text_manipulator.manipulate(xml_path, xml, place_holder_map)
-
-
-set_texts_by_xml('/Users/home/Google Drive/Remotes/iOS/shared_res/texts.xml')
