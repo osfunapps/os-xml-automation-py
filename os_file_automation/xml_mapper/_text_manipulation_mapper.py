@@ -1,5 +1,5 @@
 import os_xml_handler.xml_handler as xh
-from os_file_automation.xml_map import _shared_res as tools
+from os_file_automation.xml_mapper  import _shared_res as tools
 import os_file_stream_handler.file_stream_handler as fsh
 
 

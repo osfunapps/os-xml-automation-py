@@ -2,8 +2,8 @@ from distutils.core import setup
 
 setup(
     name='os_file_automation',  # How you named your package folder (MyLib)
-    packages=['os_file_automation'],  # Choose the same as "name"
-    version='1.04',  # Start with a small number and increase it with every change you make
+    packages=['os_file_automation', 'os_file_automation.xml_mapper'],  # Choose the same as "name"
+    version='1.08',  # Start with a small number and increase it with every change you make
     license='MIT',  # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     description='py file automation tools for os',  # Give a short description about your library
     author='Oz Shabat',  # Type in your name

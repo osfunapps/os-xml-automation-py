@@ -1,7 +1,7 @@
 import os_xml_handler.xml_handler as xh
 
-from os_file_automation.xml_map import _file_manipulation_mapper as file_manipulator
-from os_file_automation.xml_map import _text_manipulation_mapper as text_manipulator
+from os_file_automation.xml_mapper import _file_manipulation_mapper as file_manipulator
+from os_file_automation.xml_mapper import _text_manipulation_mapper as text_manipulator
 
 '''
 Will copy files/directories defined by an xml map file.

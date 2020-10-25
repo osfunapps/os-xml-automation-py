@@ -1,7 +1,7 @@
 import os
 import os_file_handler.file_handler as fh
 import os_xml_handler.xml_handler as xh
-from os_file_automation.xml_map import _shared_res as tools
+from os_file_automation.xml_mapper import _shared_res as tools
 
 
 def manipulate(xml_path, xml, place_holder_map):
