@@ -20,7 +20,6 @@ Install via pip:
     '''
     Will copy files by an xml map file.
      
-    an example of an xml file could be:
      
      <files>
         <!-- copy an absolute path -->

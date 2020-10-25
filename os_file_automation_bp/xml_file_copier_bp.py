@@ -11,7 +11,7 @@ def copy(xml_path, xml, place_holder_map):
 
         for key, value in place_holder_map.items():
             if key in path_src:
-                path_src = os.path.abspath(path_src.replace(key, value))
+                path_src = path_src.replace(key, value)
             if key in path_dst:
                 path_dst = path_dst.replace(key, value)
 
