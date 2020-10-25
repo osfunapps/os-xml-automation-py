@@ -1,6 +1,6 @@
 import os_xml_handler.xml_handler as xh
 
-from os_file_automation import bp
+from os_file_automation import _xml_file_copier
 
 '''
 Will copy files/directories defined by an xml map file.
@@ -36,4 +36,4 @@ def copy_files_by_xml(xml_path, place_holder_map=None):
     if place_holder_map is None:
         place_holder_map = {}
     xml = xh.read_xml_file(xml_path)
-    bp.copy(xml_path, xml, place_holder_map)
+    _xml_file_copier.copy(xml_path, xml, place_holder_map)
