@@ -24,6 +24,8 @@ def manipulate(xml_path, xml, place_holder_map, overwrite_if_exists = False):
                 if overwrite_if_exists:
                     fh.remove_file(path_dst)
                     fh.copy_file(path_src, path_dst)
+            else:
+                fh.copy_file(path_src, path_dst)
 
         elif os.path.isdir(path_src):
             path_dst = os.path.join(path_dst, fh.get_dir_name(path_src))
@@ -31,3 +33,5 @@ def manipulate(xml_path, xml, place_holder_map, overwrite_if_exists = False):
                 if overwrite_if_exists:
                     fh.remove_dir(path_dst)
                     fh.copy_dir(path_src, path_dst)
+            else:
+                fh.copy_dir(path_src, path_dst)
