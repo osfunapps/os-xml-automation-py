@@ -2,6 +2,26 @@ import os
 import os_file_handler.file_handler as fh
 
 
+ACTION = 'action'
+PATH_TYPE = 'path_type'
+PATH_TYPE_SEARCH = 'search'
+PATH_TYPE_AS_SRC = 'as_src'
+
+# root children
+NODE_FILE_SRC = 'file_src'
+NODE_FILE_DST = 'file_dst'
+NODE_ORIGINAL_TEXT = 'original_text'
+NODE_NEW_TEXT = 'new_text'
+
+# file node children
+NODE_PATH = 'path'
+NODE_SEARCH_PATH = 'search_path'
+NODE_FULL_NAME = 'full_name'
+NODE_PREFIX = 'name_prefix'
+NODE_SUFFIX = 'name_suffix'
+NODE_EXTENSION = 'extension'
+
+
 # will turn a relative path to abs
 def fix_path(path_str, xml_path):
     # if that's a relative source

@@ -1,7 +1,7 @@
 import os_xml_handler.xml_handler as xh
 
 from os_file_automation.xml_mapper import _file_manipulation_mapper as file_manipulator
-from os_file_automation.xml_mapper import _text_manipulation_mapper as text_manipulator
+from os_file_automation.xml_mapper.text_manipulation import _text_manipulation_mapper as text_manipulator
 
 '''
 Will copy files/directories defined by an xml map file.
@@ -82,4 +82,6 @@ def set_texts_by_xml(xml_path, place_holder_map=None):
     if place_holder_map is None:
         place_holder_map = {}
     xml = xh.read_xml_file(xml_path)
+
     text_manipulator.manipulate(xml_path, xml, place_holder_map)
+
