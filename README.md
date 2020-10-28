@@ -63,7 +63,6 @@ an example of an xml file could be:
 ```xml
 <root>
 
-
     <!-- example 1 -->
     <!-- the tag name of the files can be whatever you want -->
     <app_view_controller>
