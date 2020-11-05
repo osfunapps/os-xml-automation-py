@@ -5,3 +5,5 @@ os_file_automation/xml_mapper/_file_manipulation_mapper.py
 os_file_automation/xml_mapper/_shared_res.py
 os_file_automation/xml_mapper/test.py
 os_file_automation/xml_mapper/xml_mapper.py
+os_file_automation/xml_mapper/text_manipulation/_text_manipulation_bank.py
+os_file_automation/xml_mapper/text_manipulation/_text_manipulation_mapper.py

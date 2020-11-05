@@ -1,0 +1,69 @@
+<root>
+
+     <!--example 1 -->
+     <!--the tag name of the files/dirs can be whatever you want -->
+    <dir_copy_1>
+
+        <dir_src>
+            <path >./same_dir_file.txt</path>
+        </dir_src>
+
+        <dir_dst>
+            <path>../copied_file.txt</path>
+        </dir_dst>
+
+    </dir_copy_1>
+
+
+    <!-- example 2 -->
+    <!-- the tag name of the files/dirs can be whatever you want -->
+    <dir_copy_2>
+
+        <!-- set path_type as "search" to look for the dir in a given path -->
+        <dir_src path_type="search">
+            <search_path>/a/path/to/search/for/the/dir</search_path>
+            <full_name>my_dir_name</full_name>
+        </dir_src>
+
+        <dir_dst>
+            <path>../my_dir_name_copy</path>
+        </dir_dst>
+    </dir_copy_2>
+
+
+    <!-- example 3 -->
+    <!-- the tag name of the files/dirs can be whatever you want -->
+    <file_copy_1>
+
+        <!-- set path_type as "search" to look for the file in a given path -->
+        <file_src path_type="search">
+
+
+            <!-- here we will use a place holder defined when you'll call the function-->
+            <search_path>$a_path_defined_in_code</search_path>
+            <name_prefix>myf</name_prefix>
+            <!--<name_suffix>ile</name_suffix>-->
+            <extension>.txt</extension>
+        </file_src>
+
+        <file_dst>
+            <path>../copied_file.txt</path>
+        </file_dst>
+    </file_copy_1>
+
+    <!-- example 4 -->
+    <!-- the tag name of the files/dirs can be whatever you want -->
+    <file_copy_2>
+
+        <!-- set path_type as "search" to look for the file in a given path -->
+        <file_src>
+            <path>path/to/my/file.txt</path>
+        </file_src>
+
+        <file_dst>
+            <path>path/to/my/file_2.txt</path>
+        </file_dst>
+    </file_copy_2>
+
+
+</root>

@@ -1,42 +1,6 @@
 <root>
 
 
-    <!-- example 1 -->
-    <!-- the tag name of the files can be whatever you want -->
-    <app_view_controller>
-
-        <!-- set the source file to read -->
-        <file_src>
-            <path>abs/path/to/ViewController.swift</path>
-            <!-- or relative path:
-            <path>../../relative/path/to/ViewController.swift</path>
-            -->
-        </file_src>
-
-        <!-- set the destination file to write -->
-        <file_dst>
-            <path>./ViewController(modified).swift</path>
-        </file_dst>
-
-        <!-- set the texts to change -->
-        <texts>
-
-            <!-- the text action can be either replace/replace_line/delete line/above_line/below_line -->
-            <text action="replace_line">
-                <original_text>// this is some old school code I wrote in my ViewController.swift file</original_text>
-                <new_text>// the new, cooler and more sophisticated code 🤖</new_text>
-            </text>
-
-
-            <!-- add the if_already_present attribute and value to prevent duplications if the line already exists -->
-            <text action="replace">
-                <original_text>.testBannerAdId</original_text>
-                <new_text if_already_present="cancel">realBannerAdId</new_text>
-            </text>
-        </texts>
-    </app_view_controller>
-
-
     <!-- example 2 -->
     <!-- the tag name of the files can be whatever you want -->
     <faces_file>

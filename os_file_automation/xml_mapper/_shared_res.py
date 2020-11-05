@@ -1,6 +1,6 @@
-import os
 import os_file_handler.file_handler as fh
-
+from os_xml_handler import xml_handler as xh
+from os_tools import tools as tools
 
 ACTION = 'action'
 PATH_TYPE = 'path_type'
@@ -22,20 +22,86 @@ NODE_SUFFIX = 'name_suffix'
 NODE_EXTENSION = 'extension'
 
 
-# will turn a relative path to abs
-def fix_path(path_str, xml_path):
-    # if that's a relative source
-    if path_str.startswith('./'):
-        return fix_path(os.path.join(fh.get_parent_path(xml_path), path_str[2:]), xml_path)
+# will return the path to a given file node (src or dst)
+def get_file_node_path(xml_path, place_holder_map, file_node, node_name, previous_found_path=None, file_search=True):
+    file_node = xh.get_child_nodes(file_node, node_name)[0]
+    file_type = xh.get_node_att(file_node, PATH_TYPE)
 
+    if file_type == PATH_TYPE_AS_SRC:
+        output_file_path = previous_found_path
+
+    elif file_type == PATH_TYPE_SEARCH:
+        output_file_path = find_search_path(place_holder_map, file_node, file_search)
     else:
-        parent_num = path_str.count('../')
-        if parent_num > 0:
-            parent_dir = fh.get_parent_path(xml_path)
-            for i in range(0, parent_num):
-                parent_dir = fh.get_parent_path(parent_dir)
-            rest_of_path_idx = path_str.rindex('../') + 3
-            rest_of_path = path_str[rest_of_path_idx:]
-            return os.path.join(parent_dir, rest_of_path)
-        else:
-            return path_str
+        output_file_path = find_normal_path(place_holder_map, file_node)
+
+    # fix paths if required
+    return tools.rel_path_to_abs(output_file_path, xml_path)
+
+
+# will return the normal of a file, after modified with the dictionary's place holders
+def find_normal_path(place_holder_map, file_node):
+    file_path = xh.get_text_from_child_node(file_node, NODE_PATH)
+    for key, value in place_holder_map.items():
+        file_path = file_path.replace(key, value)
+
+    return file_path
+
+
+# will find the path of the file based on the user search params (full name, prefix, suffix and extension)
+def find_search_path(place_holder_map, file_node, file_search=True):
+    file_search_path = xh.get_text_from_child_node(file_node, NODE_SEARCH_PATH)
+    for key, value in place_holder_map.items():
+        file_search_path = file_search_path.replace(key, value)
+
+    file_full_name = xh.get_text_from_child_node(file_node, NODE_FULL_NAME)
+    file_prefix = xh.get_text_from_child_node(file_node, NODE_PREFIX)
+    file_suffix = xh.get_text_from_child_node(file_node, NODE_SUFFIX)
+    file_extension = xh.get_text_from_child_node(file_node, NODE_EXTENSION)
+
+    if file_full_name:
+        for key, value in place_holder_map.items():
+            file_full_name = file_full_name.replace(key, value)
+    if file_prefix:
+        for key, value in place_holder_map.items():
+            file_prefix = file_prefix.replace(key, value)
+    if file_suffix:
+        for key, value in place_holder_map.items():
+            file_suffix = file_suffix.replace(key, value)
+
+    if file_full_name and file_search:
+        full_name_has_extension = fh.get_extension_from_file(file_full_name)
+        if not full_name_has_extension and not file_extension:
+            print(f"ERROR:'{file_full_name}' doesn't have an extension!\nAdd the extension in the same line (<full_name>{file_full_name}.extension</full_name>) or via the <extension> tag.\n")
+            file_extension = tools.ask_for_input(f"If you want to proceed, type the extension below:")
+
+    if file_search:
+        files_found = fh.search_file(file_search_path,
+                                     full_name=file_full_name,
+                                     prefix=file_prefix,
+                                     suffix=file_suffix,
+                                     by_extension=file_extension,
+                                     recursive=True)
+    else:
+        files_found = fh.search_dir(file_search_path,
+                                    full_name=file_full_name,
+                                    prefix=file_prefix,
+                                    suffix=file_suffix,
+                                    recursive=True)
+    file_idx = 0
+    if not files_found:
+        raise IOError(f"ERROR: couldn't find the file/directory with these props:\nFull Name: '{file_full_name}'\nPrefix: '{file_prefix}'\nSuffix: '{file_suffix}'\nextension: '{file_extension}'")
+    if len(files_found) > 1:
+        print()
+        print(f"WARNING: there are {len(files_found)} files/directories which corresponds to the search path '{file_search_path}' with these props:\nFull Name: '{file_full_name}'\nPrefix: '{file_prefix}'\nSuffix: '{file_suffix}'\nextension: '{file_extension}'")
+        print(f"**********************************************************************")
+        counter = 1
+        for file_found in files_found:
+            print(f'{counter}) {file_found}')
+            counter += 1
+        print(f"**********************************************************************")
+        print('Please type the number of file/directory to use')
+        file_idx = int(tools.ask_for_input(''))
+
+    file_path = files_found[file_idx - 1]
+    return file_path
