@@ -9,7 +9,7 @@ Install via pip:
     pip install os-file-automation
 
 
-## File automation:
+## File copy automation:
    
 Will copy directory/file by an absolute/relative/dynamic path defined by an xml file.
 
