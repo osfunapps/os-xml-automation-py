@@ -3,9 +3,6 @@ from os_file_automation.xml_mapper import _shared_res as shared_res
 import os_file_handler.file_handler as fh
 import os
 
-NODE_DIR_SRC = 'dir_src'
-NODE_DIR_DST = 'dir_dst'
-
 
 # manipulate the files by the text mapper
 def manipulate(xml_path, xml, place_holder_map):
@@ -15,14 +12,14 @@ def manipulate(xml_path, xml, place_holder_map):
     for file_node in file_nodes:
 
         # get the <file_src> or the <dir_src>
-        if xh.get_child_nodes(file_node, NODE_DIR_SRC):
-            src_path = shared_res.get_file_node_path(xml_path, place_holder_map, file_node, NODE_DIR_SRC, file_search=False)
+        if xh.get_child_nodes(file_node, shared_res.NODE_DIR_SRC):
+            src_path = shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_SRC, file_search=False)
         else:
             src_path = shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_SRC, file_search=True)
 
         # get the <file_dst> or the <dir_dst>
-        if xh.get_child_nodes(file_node, NODE_DIR_DST):
-            dst_path = shared_res.get_file_node_path(xml_path, place_holder_map, file_node, NODE_DIR_DST, file_search=False)
+        if xh.get_child_nodes(file_node, shared_res.NODE_DIR_DST):
+            dst_path = shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_DST, file_search=False)
         else:
             dst_path = shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_DST, src_path, file_search=True)
 

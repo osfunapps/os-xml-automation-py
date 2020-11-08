@@ -21,6 +21,10 @@ NODE_PREFIX = 'name_prefix'
 NODE_SUFFIX = 'name_suffix'
 NODE_EXTENSION = 'extension'
 
+# file node types
+NODE_DIR_SRC = 'dir_src'
+NODE_DIR_DST = 'dir_dst'
+
 
 # will return the path to a given file node (src or dst)
 def get_file_node_path(xml_path, place_holder_map, file_node, node_name, previous_found_path=None, file_search=True):
@@ -105,3 +109,10 @@ def find_search_path(place_holder_map, file_node, file_search=True):
 
     file_path = files_found[file_idx - 1]
     return file_path
+
+
+# will fill the node's text relative to it's place holders
+def fill_place_holders(text, place_holder_map):
+    for key, value in place_holder_map.items():
+        text = text.replace(key, value)
+    return text

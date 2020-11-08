@@ -38,6 +38,21 @@ to use:
                         place_holder_map= {'$project_path': 'the/path/to/my/project/path',
                                                                       $first_person_name': 'Johnny boy',
                                                                      '$second_person_name': 'Craig and Josh'})
+
+## XCode project automation:
+   
+Will build an xcode project by a predefined xml file.
+
+![An example of an xml file](/examples/xcode_mapper_xml_example.xml)
+
+After your created the xml file, call it from code:
+    
+    import os_file_automation.xml_mapper.xml_mapper as xm
+ 
+    xm.set_xcode_project_by_xml('/path/to/your/xcode_mapper.xml',
+                                place_holder_map = {'$app_path': '/path/to/a/dynamic/directory'})
+
+        
            
 
 And more...

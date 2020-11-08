@@ -1,0 +1,122 @@
+<xcode_props>
+
+    <!-- will hold all of the project properties -->
+    <project_properties>
+        <project_root>/path/to/xcode/project</project_root>
+        <root_dir_name>my_root_dir_name</root_dir_name>
+        <xcodeproj_file_name>my_root_dir_name.xcodeproj</xcodeproj_file_name>
+        <bundle_identifier>com.mybundleid</bundle_identifier>
+        <product_name>apps name</product_name>
+
+        <!-- NOTICE: you will need to create a copy of the .plist file you want to use and set the path here. It will be copied to your project on startup -->
+        <plist_path>$app_path/files/res/Info.plist</plist_path>
+    </project_properties>
+
+    <!-- the extensions of the added files (you don't need to add .plist or .swift)-->
+    <added_files_extensions>
+        <extension>.zip</extension>
+        <extension>.xml</extension>
+    </added_files_extensions>
+
+    <!-- the next segment will divide the actions to steps -->
+
+    <!-- first, in step one, we will unlink all of the previously used resources -->
+    <step_1>
+
+        <!-- remove a linked directory which was previously added-->
+        <unlink type="dir" delete="false">my_root_dir_name/rel/path/to/dir</unlink>
+
+        <!-- remove a linked file which was previously added-->
+        <unlink type="file" delete="false">my_root_dir_name/GoogleService-Info.plist</unlink>
+    </step_1>
+
+
+    <!-- in step two, we will link all of the resources and files we want in the project-->
+    <step_2>
+
+        <!-- copy google services -->
+        <link>
+            <file_src path_type="search">
+
+                <search_path>path/in/computer/to/look/for</search_path>
+                <full_name>GoogleService-Info.plist</full_name>
+            </file_src>
+
+            <file_dst>
+                <path>my_root_dir_name/GoogleService-Info.plist</path>
+            </file_dst>
+        </link>
+
+         <!-- look for a directory in the computer and add it -->
+        <link>
+            <dir_src path_type="search">
+                <search_path>path/in/computer/search</search_path>
+                <full_name>dir_to_search</full_name>
+            </dir_src>
+
+            <dir_dst>
+                <path>my_root_dir_name/Dynamic Resources/Main</path>
+            </dir_dst>
+        </link>
+
+        <!-- copy a file -->
+        <link>
+            <dir_src>
+                <path>path/to/text/file.txt</path>
+            </dir_src>
+
+            <dir_dst>
+                <path>my_root_dir_name/Dynamic Resources/Main/copied_text_file.txt</path>
+            </dir_dst>
+        </link>
+
+
+    </step_2>
+
+
+    <!-- in step 3, we will add the pods and the frameworks -->
+    <step_3>
+
+        <!-- pods add -->
+        <pods>
+            <pod_line>use_frameworks!</pod_line>
+            <pod_line>platform :ios, '10.0'</pod_line>
+            <pod_line>source 'https://github.com/CocoaPods/Specs.git'</pod_line>
+            <pod_line>pod 'Zip', '~> 1.1'</pod_line>
+            <pod_line>pod 'SWXMLHash', '~> 5.0.0'</pod_line>
+        </pods>
+
+        <!-- frameworks add -->
+        <frameworks>
+
+            <!-- custom framework-->
+            <amazon_fling_framework>
+                <path>path/to/amazon/fling.framework</path>
+                <type>custom</type>
+            </amazon_fling_framework>
+
+
+            <!-- generic system frameworks-->
+            <external_accesory>
+                <path>ExternalAccessory.framework</path>
+                <type>system</type>
+            </external_accesory>
+
+            <audio_toolbox>
+                <path>AudioToolbox.framework</path>
+                <type>system</type>
+            </audio_toolbox>
+
+            <store_kit>
+                <path>StoreKit.framework</path>
+                <type>system</type>
+            </store_kit>
+
+
+        </frameworks>
+
+    </step_3>
+
+    <!-- add more steps here... -->
+
+</xcode_props>
