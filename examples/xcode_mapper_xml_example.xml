@@ -6,10 +6,13 @@
         <root_dir_name>my_root_dir_name</root_dir_name>
         <xcodeproj_file_name>my_root_dir_name.xcodeproj</xcodeproj_file_name>
         <bundle_identifier>com.mybundleid</bundle_identifier>
-        <product_name>apps name</product_name>
+        <product_name>app name</product_name>
 
         <!-- NOTICE: you will need to create a copy of the .plist file you want to use and set the path here. It will be copied to your project on startup -->
         <plist_path>$app_path/files/res/Info.plist</plist_path>
+
+        <!-- the path to the AppIcon.appiconset directory, contains all of the logo files -->
+        <app_icon.appiconset>$app_path/files/res/AppIcon.appiconset</app_icon.appiconset>
     </project_properties>
 
     <!-- the extensions of the added files (you don't need to add .plist or .swift)-->

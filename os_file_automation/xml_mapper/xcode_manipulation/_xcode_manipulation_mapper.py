@@ -31,6 +31,7 @@ def manipulate(xml_path, xml, place_holder_map):
     bundle_identifier = xh.get_text_from_child_node(project_properties_node, 'bundle_identifier')
     product_name = xh.get_text_from_child_node(project_properties_node, 'product_name')
     plist_path = xh.get_text_from_child_node(project_properties_node, 'plist_path')
+    logo_path = xh.get_text_from_child_node(project_properties_node, 'app_icon.appiconset')
 
     # set the general properties in the xcode project
     project = xpm.build_project(os.path.join(project_root, xcodeproj_file_name))
@@ -41,6 +42,12 @@ def manipulate(xml_path, xml, place_holder_map):
     plist_dst = os.path.join(project_root, root_dir_name, 'Info.plist')
     plist_path = shared_res.fill_place_holders(plist_path, place_holder_map)
     fh.copy_file(plist_path, plist_dst, overwrite_if_needed=True)
+
+    # copy the logo files
+    logo_dst = os.path.join(project_root, root_dir_name, 'Assets.xcassets', 'AppIcon.appiconset')
+    logo_path = shared_res.fill_place_holders(logo_path, place_holder_map)
+    fh.remove_dir(logo_dst)
+    fh.copy_dir(logo_path, logo_dst)
 
     # add file extensions
     added_files_extensions_node = xh.get_child_nodes(root_node, 'added_files_extensions')[0]
