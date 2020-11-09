@@ -31,6 +31,7 @@
                 <new_text>this line will be above the funny face</new_text>
             </text>
 
+            <!-- delete_range will remove text between boundaries -->
             <text action="delete_range" include_boundaries="true">
                 <original_text>range delete start</original_text>
                 <new_text>range delete end</new_text>
