@@ -1,5 +1,4 @@
 import os_xml_handler.xml_handler as xh
-from os_file_stream_handler import file_stream_handler as fsh
 
 from os_file_automation.xml_mapper import _shared_res as shared_res
 from os_file_automation.xml_mapper.text_manipulation import _text_manipulation_bank as finals
@@ -25,14 +24,19 @@ def manipulate(xml_path, xml, place_holder_map):
 
 # will do a specific text node
 def init_text_node_cycle(text_node, place_holder_map, src_file_path, dst_file_path):
+
     # get the current action and text
     action = str(xh.get_node_att(text_node, shared_res.ACTION))
     original_text = xh.get_text_from_child_node(text_node, shared_res.NODE_ORIGINAL_TEXT)
     cancel_if_already_present = False
     new_text = ''
 
-    # if no delete line
-    if action != finals.NODE_TEXT_ATT_ACTION_VAL_DELETE_LINE:
+    # delete range is special. It will need a special way to deal with
+    if action == finals.NODE_TEXT_ATT_ACTION_VAL_DELETE_RANGE:
+        handle_delete_range(text_node, place_holder_map, src_file_path, dst_file_path)
+        return
+
+    if action != finals.NODE_TEXT_ATT_ACTION_VAL_DELETE_LINE and action != finals.NODE_TEXT_ATT_ACTION_VAL_DELETE_RANGE:
         new_text_node = xh.get_child_nodes(text_node, shared_res.NODE_NEW_TEXT)[0]
         new_text = xh.get_text_from_node(new_text_node)
         cancel_if_already_present = xh.get_node_att(new_text_node, finals.NODE_TEXT_ATT_IF_ALREADY_PRESENT) == finals.NODE_TEXT_ATT_IF_ALREADY_PRESENT_VAL_CANCEL
@@ -44,6 +48,7 @@ def init_text_node_cycle(text_node, place_holder_map, src_file_path, dst_file_pa
         if new_text and key in new_text:
             new_text = new_text.replace(key, value)
 
+    from os_file_stream_handler import file_stream_handler as fsh
     if action == finals.NODE_TEXT_ATT_ACTION_VAL_DELETE_LINE:
         fsh.delete_line_in_file(src_file_path, dst_file_path, original_text)
     elif action == finals.NODE_TEXT_ATT_ACTION_VAL_REPLACE or action == finals.NODE_TEXT_ATT_ACTION_VAL_REPLACE_LINE:
@@ -52,3 +57,16 @@ def init_text_node_cycle(text_node, place_holder_map, src_file_path, dst_file_pa
         fsh.append_text_above_line_in_file(src_file_path, dst_file_path, original_text, new_text, cancel_if_already_present)
     elif action == finals.NODE_TEXT_ATT_ACTION_VAL_BELOW:
         fsh.append_text_below_line_in_file(src_file_path, dst_file_path, original_text, new_text, cancel_if_already_present)
+
+
+# will delete a text in range
+def handle_delete_range(text_node, place_holder_map, src_file_path, dst_file_path):
+    from_text = xh.get_text_from_child_node(text_node, finals.NODE_FROM_TEXT)
+    to_text = xh.get_text_from_child_node(text_node, finals.NODE_TO_TEXT)
+    from_text = shared_res.fill_place_holders(from_text, place_holder_map)
+    to_text = shared_res.fill_place_holders(to_text, place_holder_map)
+    include_boundaries = xh.get_node_att(text_node, finals.NODE_TEXT_ATT_INCLUDE_BOUNDARIES)
+    include_boundaries = include_boundaries and include_boundaries == 'true'
+    from os_file_stream_handler import file_stream_handler as fsh
+    fsh.delete_text_range_in_file(src_file_path, dst_file_path, from_text, to_text, include_bundaries=include_boundaries)
+

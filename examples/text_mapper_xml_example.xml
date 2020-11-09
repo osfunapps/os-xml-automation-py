@@ -24,10 +24,20 @@
             </text>
             <text action="replace_line">
                 <original_text>this is a spooked face: 😱</original_text>
+                <new_text>this line will be instead of the spooky face</new_text>
             </text>
             <text action="above_line">
                 <original_text>this is a funny face: 👾</original_text>
+                <new_text>this line will be above the funny face</new_text>
             </text>
+
+            <text action="delete_range" include_boundaries="true">
+                <original_text>range delete start</original_text>
+                <new_text>range delete end</new_text>
+            </text>
+
+
+
         </texts>
     </faces_file>
 
@@ -51,7 +61,7 @@
             </text>
             <text action="below_line">
                 <original_text>craig the $craig_last_name</original_text>
-                <new_text>Osama bin gladden 👳</new_text>
+                <new_text>Osama bin gladden 👳 is below craig $craig_last_name</new_text>
             </text>
         </texts>
     </people_file>

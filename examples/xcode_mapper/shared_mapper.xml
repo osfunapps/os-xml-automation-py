@@ -3,8 +3,8 @@
 
     <project_properties>
         <project_root>path/to/project/root</project_root>
-        <root_dir_name>projects_root_name</root_dir_name>
-        <xcodeproj_file_name>projects_root_name.xcodeproj</xcodeproj_file_name>
+        <root_dir_name>projects_root_dir_name</root_dir_name>
+        <xcodeproj_file_name>projects_root_dir_name.xcodeproj</xcodeproj_file_name>
         <plist_path>$app_path/files/res/Info.plist</plist_path>
         <app_icon.appiconset>$app_path/files/res/AppIcon.appiconset</app_icon.appiconset>
     </project_properties>
@@ -18,8 +18,8 @@
 
     <!-- in step one, we will unlink all of the previously used resources -->
     <step_1>
-        <unlink type="dir" delete="false">GeneralRemoteiOS/Dynamic Resources</unlink>
-        <unlink type="file" delete="false">GeneralRemoteiOS/GoogleService-Info.plist</unlink>
+        <unlink type="dir" delete="false">projects_root_dir_name/Dynamic Resources</unlink>
+        <unlink type="file" delete="false">projects_root_dir_name/GoogleService-Info.plist</unlink>
     </step_1>
 
     <!-- in step 2, add pods and frameworks -->

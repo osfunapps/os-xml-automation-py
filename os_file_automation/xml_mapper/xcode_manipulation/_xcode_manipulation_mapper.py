@@ -23,7 +23,7 @@ NODE_ROOT_ATT_EXTENSION_MAPPER_PATH = 'extension_mapper_path'
 def manipulate(xml_path, xml, place_holder_map):
     from os_xcode_tools import xcode_project_manipulator as xpm
     root_node = xh.get_root_node(xml)
-    add_extension_nodes(place_holder_map, root_node, xml)
+    add_extension_nodes(xml_path, place_holder_map, root_node, xml)
 
     project_properties_node = xh.get_child_nodes(root_node, 'project_properties')[0]
 
@@ -67,8 +67,9 @@ def manipulate(xml_path, xml, place_holder_map):
 
 
 # will add all of the nodes from the extension file to the xml
-def add_extension_nodes(place_holder_map, root_node, xml):
+def add_extension_nodes(xml_path, place_holder_map, root_node, xml):
     extension_mapper_path = xh.get_node_att(root_node, NODE_ROOT_ATT_EXTENSION_MAPPER_PATH)
+    extension_mapper_path = tools.rel_path_to_abs(extension_mapper_path, xml_path)
     if extension_mapper_path:
         extension_mapper_path = shared_res.fill_place_holders(extension_mapper_path, place_holder_map)
         extension_xml = xh.read_xml_file(extension_mapper_path)
