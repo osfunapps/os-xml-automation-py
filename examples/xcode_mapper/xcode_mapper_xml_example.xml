@@ -8,6 +8,9 @@
         <bundle_identifier>com.mybundleid</bundle_identifier>
         <product_name>app name</product_name>
 
+        <!-- toggle to call pod install -->
+        <install_pods>true</install_pods>
+
         <!-- NOTICE: you will need to create a copy of the .plist file you want to use and set the path here. It will be copied to your project on startup -->
         <plist_path>$app_path/files/res/Info.plist</plist_path>
 
@@ -81,7 +84,7 @@
     <step_3>
 
         <!-- pods add -->
-        <pods>
+        <pods action="append">  <!-- set to 'clear_and_append' if you want to remove the old pods -->
             <pod_line>use_frameworks!</pod_line>
             <pod_line>platform :ios, '10.0'</pod_line>
             <pod_line>source 'https://github.com/CocoaPods/Specs.git'</pod_line>

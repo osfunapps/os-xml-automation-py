@@ -66,7 +66,7 @@ def handle_delete_range(text_node, place_holder_map, src_file_path, dst_file_pat
     from_text = shared_res.fill_place_holders(from_text, place_holder_map)
     to_text = shared_res.fill_place_holders(to_text, place_holder_map)
     include_boundaries = xh.get_node_att(text_node, finals.NODE_TEXT_ATT_INCLUDE_BOUNDARIES)
-    include_boundaries = include_boundaries and include_boundaries == 'true'
+    include_boundaries = not include_boundaries or include_boundaries == 'false'
     from os_file_stream_handler import file_stream_handler as fsh
     fsh.delete_text_range_in_file(src_file_path, dst_file_path, from_text, to_text, include_bundaries=include_boundaries)
 
