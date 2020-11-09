@@ -16,7 +16,12 @@ NODE_UNLINK_ATT_TYPE = 'type'
 NODE_UNLINK_ATT_TYPE_VAL_DIR = 'dir'
 NODE_UNLINK_ATT_TYPE_VAL_FILE = 'file'
 NODE_FRAMEWORKS = 'frameworks'
+NODE_RUN_TEXT_MAPPER = 'run_text_mapper'
 NODE_ROOT_ATT_EXTENSION_MAPPER_PATH = 'extension_mapper_path'
+NODE_PLACE_HOLDER_MAP = 'place_holder_map'
+NODE_ARG = 'arg'
+NODE_KEY = 'key'
+NODE_VALUE = 'value'
 
 
 # manipulate an xcode project by an xml properties file
@@ -38,26 +43,28 @@ def manipulate(xml_path, xml, place_holder_map):
 
     # set the general properties in the xcode project
     project = xpm.build_project(os.path.join(project_root, xcodeproj_file_name))
-    xpm.set_bundle_identifier(project, bundle_identifier)
-    xpm.set_product_name(project, product_name)
-
-    # copy the plist file
-    plist_dst = os.path.join(project_root, root_dir_name, 'Info.plist')
-    plist_path = shared_res.fill_place_holders(plist_path, place_holder_map)
-    fh.copy_file(plist_path, plist_dst, overwrite_if_needed=True)
-
-    # copy the logo files
-    logo_dst = os.path.join(project_root, root_dir_name, 'Assets.xcassets', 'AppIcon.appiconset')
-    logo_path = shared_res.fill_place_holders(logo_path, place_holder_map)
-    fh.remove_dir(logo_dst)
-    fh.copy_dir(logo_path, logo_dst)
+    # xpm.set_bundle_identifier(project, bundle_identifier)
+    # xpm.set_product_name(project, product_name)
+    #
+    # # copy the plist file
+    # plist_dst = os.path.join(project_root, root_dir_name, 'Info.plist')
+    # plist_path = shared_res.fill_place_holders(plist_path, place_holder_map)
+    # fh.copy_file(plist_path, plist_dst, overwrite_if_needed=True)
+    #
+    # # copy the logo files
+    # logo_dst = os.path.join(project_root, root_dir_name, 'Assets.xcassets', 'AppIcon.appiconset')
+    # logo_path = shared_res.fill_place_holders(logo_path, place_holder_map)
+    # fh.remove_dir(logo_dst)
+    # fh.copy_dir(logo_path, logo_dst)
 
     # add file extensions
-    added_files_extensions_node = xh.get_child_nodes(root_node, 'added_files_extensions')[0]
-    extension_list = []
-    for extension_node in xh.get_all_direct_child_nodes(added_files_extensions_node):
-        extension_list.append(xh.get_text_from_node(extension_node))
-    xpm.add_files_extensions_arr(extension_list)
+    added_files_extensions_node = xh.get_child_nodes(root_node, 'added_files_extensions')
+    if added_files_extensions_node:
+        added_files_extensions_node = added_files_extensions_node[0]
+        extension_list = []
+        for extension_node in xh.get_all_direct_child_nodes(added_files_extensions_node):
+            extension_list.append(xh.get_text_from_node(extension_node))
+        xpm.add_files_extensions_arr(extension_list)
 
     # start running on all of the steps
     run_next_step_cycle(project, root_node, xml_path, place_holder_map, curr_step=1)
@@ -69,8 +76,8 @@ def manipulate(xml_path, xml, place_holder_map):
 # will add all of the nodes from the extension file to the xml
 def add_extension_nodes(xml_path, place_holder_map, root_node, xml):
     extension_mapper_path = xh.get_node_att(root_node, NODE_ROOT_ATT_EXTENSION_MAPPER_PATH)
-    extension_mapper_path = tools.rel_path_to_abs(extension_mapper_path, xml_path)
     if extension_mapper_path:
+        extension_mapper_path = tools.rel_path_to_abs(extension_mapper_path, xml_path)
         extension_mapper_path = shared_res.fill_place_holders(extension_mapper_path, place_holder_map)
         extension_xml = xh.read_xml_file(extension_mapper_path)
         return xh.merge_xml1_with_xml2(extension_xml, xml)
@@ -105,6 +112,10 @@ def run_next_step_cycle(project, root_node, xml_path, place_holder_map, curr_ste
             # if frameworks
             elif curr_step_tag == NODE_FRAMEWORKS:
                 do_frameworks_tag(project, place_holder_map, curr_step_child_node)
+
+            elif curr_step_tag == NODE_RUN_TEXT_MAPPER:
+                do_run_text_mapper_tag(xml_path, place_holder_map, curr_step_child_node)
+
         print('done!')
         run_next_step_cycle(project, root_node, xml_path, place_holder_map, curr_step + 1)
 
@@ -205,6 +216,26 @@ def do_frameworks_tag(project, place_holder_map, frameworks_node):
 
     from os_xcode_tools import xcode_project_manipulator as xpm
     xpm.set_frameworks(project, framework_dict_list)
+
+
+# will operate the <run_text_mapper> tag
+def do_run_text_mapper_tag(xml_path, place_holder_map, curr_step_child_node):
+    req_place_holder_map = xh.get_child_nodes(curr_step_child_node, NODE_PLACE_HOLDER_MAP)
+
+    # if a dictionary exists in the xml, build it in code
+    text_mapper_place_holder_map = None
+    if req_place_holder_map:
+        text_mapper_place_holder_map = {}
+        req_place_holder_map = req_place_holder_map[0]
+        for arg in xh.get_all_direct_child_nodes(req_place_holder_map):
+            key = xh.get_text_from_child_node(arg, NODE_KEY)
+            val = xh.get_text_from_child_node(arg, NODE_VALUE)
+            val = shared_res.fill_place_holders(val, place_holder_map)
+            text_mapper_place_holder_map[key] = val
+
+    src_path = shared_res.get_file_node_path(xml_path, place_holder_map, curr_step_child_node, shared_res.NODE_FILE_SRC, file_search=True)
+    from os_file_automation.xml_mapper import xml_mapper as xm
+    xm.set_texts_by_xml(src_path, text_mapper_place_holder_map)
 
 
 def print_line():

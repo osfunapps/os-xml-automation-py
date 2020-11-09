@@ -16,6 +16,7 @@
     </added_files_extensions>
 
 
+
     <!-- in step one, we will unlink all of the previously used resources -->
     <step_1>
         <unlink type="dir" delete="false">projects_root_dir_name/Dynamic Resources</unlink>
@@ -51,6 +52,30 @@
         </frameworks>
 
     </step_2>
+
+    <!-- step 3 is an example of running an external text mapper to do additional changes. read about the text mappers to study more! -->
+    <!-- in step 3 we will run the text mapper to do any changes in the project files (in this example, substitute texts) after we will set the project -->
+    <step_3>
+        <run_text_mapper>
+            <file_src>
+                <path>./path/to/text/mapper.xml</path>
+            </file_src>
+
+            <!-- if the text mapper file requires place holders, they will be set using the <arg> tags -->
+            <!-- NOTICE: we can also pass place holder values, like so:
+            <arg>
+                    <key>$project_path</key>
+                    <value>$project_path</value> - the $project_path value will be passed
+            </arg>
+            -->
+            <place_holder_map>
+                <arg>
+                    <key>$project_path</key>
+                    <value>path/to/project/root</value>
+                </arg>
+            </place_holder_map>
+        </run_text_mapper>
+    </step_3>
 
 
 </xcode_extension_props>
