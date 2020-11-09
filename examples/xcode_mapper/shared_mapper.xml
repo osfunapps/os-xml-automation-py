@@ -1,0 +1,56 @@
+<!-- this is just an extension mapper to the xcode_mapper_example_2.xml file -->
+<xcode_extension_props>
+
+    <project_properties>
+        <project_root>path/to/project/root</project_root>
+        <root_dir_name>projects_root_name</root_dir_name>
+        <xcodeproj_file_name>projects_root_name.xcodeproj</xcodeproj_file_name>
+        <plist_path>$app_path/files/res/Info.plist</plist_path>
+        <app_icon.appiconset>$app_path/files/res/AppIcon.appiconset</app_icon.appiconset>
+    </project_properties>
+
+    <!-- the extensions of the added files (you don't need to add .plist or .swift-->
+    <added_files_extensions>
+        <extension>.zip</extension>
+        <extension>.xml</extension>
+    </added_files_extensions>
+
+
+    <!-- in step one, we will unlink all of the previously used resources -->
+    <step_1>
+        <unlink type="dir" delete="false">GeneralRemoteiOS/Dynamic Resources</unlink>
+        <unlink type="file" delete="false">GeneralRemoteiOS/GoogleService-Info.plist</unlink>
+    </step_1>
+
+    <!-- in step 2, add pods and frameworks -->
+    <step_2>
+        <pods>
+            <pod_line># reachability, to get wifi events</pod_line>
+            <pod_line>use_frameworks!</pod_line>
+            <pod_line># os libraries</pod_line>
+            <pod_line>pod 'OsUIViews'</pod_line>
+            <pod_line>pod 'OsTools'</pod_line>
+        </pods>
+
+        <frameworks>
+
+            <!-- add some system frameworks (no need to add Pods_ framework here) -->
+            <framework>
+                <path>audiotoolbox.framework</path>
+                <type>system</type>
+            </framework>
+
+            <framework>
+                <path>externalaccessory.framework</path>
+                <type>system</type>
+            </framework>
+            <framework>
+                <path>storekit.framework</path>
+                <type>system</type>
+            </framework>
+        </frameworks>
+
+    </step_2>
+
+
+</xcode_extension_props>

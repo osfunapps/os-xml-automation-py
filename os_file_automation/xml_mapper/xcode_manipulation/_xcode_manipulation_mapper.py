@@ -16,12 +16,15 @@ NODE_UNLINK_ATT_TYPE = 'type'
 NODE_UNLINK_ATT_TYPE_VAL_DIR = 'dir'
 NODE_UNLINK_ATT_TYPE_VAL_FILE = 'file'
 NODE_FRAMEWORKS = 'frameworks'
+NODE_ROOT_ATT_EXTENSION_MAPPER_PATH = 'extension_mapper_path'
 
 
 # manipulate an xcode project by an xml properties file
 def manipulate(xml_path, xml, place_holder_map):
     from os_xcode_tools import xcode_project_manipulator as xpm
     root_node = xh.get_root_node(xml)
+    add_extension_nodes(place_holder_map, root_node, xml)
+
     project_properties_node = xh.get_child_nodes(root_node, 'project_properties')[0]
 
     # fetch the project properties
@@ -61,6 +64,17 @@ def manipulate(xml_path, xml, place_holder_map):
     print_line()
     print('saving...')
     xpm.save_changes(project)
+
+
+# will add all of the nodes from the extension file to the xml
+def add_extension_nodes(place_holder_map, root_node, xml):
+    extension_mapper_path = xh.get_node_att(root_node, NODE_ROOT_ATT_EXTENSION_MAPPER_PATH)
+    if extension_mapper_path:
+        extension_mapper_path = shared_res.fill_place_holders(extension_mapper_path, place_holder_map)
+        extension_xml = xh.read_xml_file(extension_mapper_path)
+        return xh.merge_xml1_with_xml2(extension_xml, xml)
+    else:
+        return xml
 
 
 # operate the next step
