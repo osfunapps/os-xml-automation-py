@@ -46,8 +46,8 @@ Will build an xcode project by a predefined xml file.
 ![xml example 1](/examples/xcode_mapper/xcode_mapper_xml_example.xml)
 
 You can also extend an xml file to another one, to prevent repeating yourself:
-![xml example 2](/examples/xcode_mapper/xcode_mapper_xml_example_2.xml)
-![and the example 2 extension file](/examples/xcode_mapper/shared_mapper.xml)
+- ![xml example 2](/examples/xcode_mapper/xcode_mapper_xml_example_2.xml)  
+- ![example 2 extension file](/examples/xcode_mapper/shared_mapper.xml)
 
 
 After your created the xml file, call it from code:
