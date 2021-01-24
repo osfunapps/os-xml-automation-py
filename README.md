@@ -13,10 +13,8 @@ Install via pip:
    
 Will copy/delete directory/file by an absolute/relative/dynamic path defined by an xml file.
 
-![xml example of copy](/examples/file_mapper/file_mapper_xml_copy.xml)
-
-
-![xml delete example](/examples/file_mapper/file_mapper_xml_delete.xml)
+- ![xml example of copy](/examples/file_mapper/file_mapper_xml_copy.xml)
+- ![xml delete example](/examples/file_mapper/file_mapper_xml_delete.xml)
 
 After your created the xml file, call it from code:
     
@@ -28,8 +26,8 @@ After your created the xml file, call it from code:
 ## Text automation
 
 Will copy/append/replace/delete text defined by an xml map file.
-     
-![An example of an xml file](/examples/text_mapper_xml_example.xml)
+
+- ![An example of an xml file](/examples/text_mapper/text_mapper_xml_example.xml)
      
 NOTICE: It doesn't matter what the tag names of the file nodes (the direct children of the root). 
     
@@ -46,7 +44,7 @@ to use:
    
 Will build an xcode project by a predefined xml file.
 
-![xml example 1](/examples/xcode_mapper/xcode_mapper_xml_example.xml)
+- ![xml example 1](/examples/xcode_mapper/xcode_mapper_xml_example.xml)
 
 You can also extend an xml file to another one, to prevent repeating yourself:
 - ![xml example 2](/examples/xcode_mapper/xcode_mapper_xml_example_2.xml)
