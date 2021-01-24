@@ -9,17 +9,20 @@ Install via pip:
     pip install os-file-automation
 
 
-## File copy automation:
+## File handling automation:
    
-Will copy directory/file by an absolute/relative/dynamic path defined by an xml file.
+Will copy/delete directory/file by an absolute/relative/dynamic path defined by an xml file.
 
-![An example of an xml file](/examples/file_mapper_xml_example.xml)
+![xml example of copy](/examples/file_mapper/file_mapper_xml_copy.xml)
+
+
+![xml delete example](/examples/file_mapper/file_mapper_xml_example_2.xml)
 
 After your created the xml file, call it from code:
     
     import os_file_automation.xml_mapper.xml_mapper as xm
  
-    xm.copy_files_by_xml(xml_path='path/to/xml', place_holder_map= {'$project_path': 'the/path/to/my/project/path'})
+    xm.manipulate_files_by_xml(xml_path='path/to/xml', place_holder_map= {'$project_path': 'the/path/to/my/project/path'})
         
 
 ## Text automation

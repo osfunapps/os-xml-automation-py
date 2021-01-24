@@ -2,7 +2,7 @@
 
      <!--example 1 -->
      <!--the tag name of the files/dirs can be whatever you want -->
-    <dir_copy_1>
+    <dir_copy_1 action="copy">
 
         <dir_src>
             <path >./same_dir_file.txt</path>
@@ -17,7 +17,7 @@
 
     <!-- example 2 -->
     <!-- the tag name of the files/dirs can be whatever you want -->
-    <dir_copy_2>
+    <dir_copy_2 action="copy">
 
         <!-- set path_type as "search" to look for the dir in a given path -->
         <dir_src path_type="search">
@@ -33,7 +33,7 @@
 
     <!-- example 3 -->
     <!-- the tag name of the files/dirs can be whatever you want -->
-    <file_copy_1>
+    <file_copy_1 action="copy">
 
         <!-- set path_type as "search" to look for the file in a given path -->
         <file_src path_type="search">
@@ -53,7 +53,7 @@
 
     <!-- example 4 -->
     <!-- the tag name of the files/dirs can be whatever you want -->
-    <file_copy_2>
+    <file_copy_2 action="copy">
 
         <!-- set path_type as "search" to look for the file in a given path -->
         <file_src>

@@ -7,7 +7,7 @@ setup(
               'os_file_automation.xml_mapper.text_manipulation',
               'os_file_automation.xml_mapper.file_manipulation',
               'os_file_automation.xml_mapper.xcode_manipulation'],  # Choose the same as "name"
-    version='1.33',  # Start with a small number and increase it with every change you make
+    version='1.37',  # Start with a small number and increase it with every change you make
     license='MIT',  # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     description='py file automation tools for os',  # Give a short description about your library
     author='Oz Shabat',  # Type in your name

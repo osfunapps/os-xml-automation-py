@@ -1,5 +1,6 @@
 import os_xml_handler.xml_handler as xh
 from os_file_automation.xml_mapper import _shared_res as shared_res
+from os_file_automation.xml_mapper.file_manipulation import _file_manipulation_bank as res
 import os_file_handler.file_handler as fh
 import os
 
@@ -11,21 +12,54 @@ def manipulate(xml_path, xml, place_holder_map):
     # run on all of the root's direct children
     for file_node in file_nodes:
 
-        # get the <file_src> or the <dir_src>
-        if xh.get_child_nodes(file_node, shared_res.NODE_DIR_SRC):
-            src_path = shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_SRC, file_search=False)
-        else:
-            src_path = shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_SRC, file_search=True)
+        # get the action
+        action = xh.get_node_att(file_node, shared_res.ACTION)
 
-        # get the <file_dst> or the <dir_dst>
-        if xh.get_child_nodes(file_node, shared_res.NODE_DIR_DST):
-            dst_path = shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_DST, file_search=False)
-        else:
-            dst_path = shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_DST, src_path, file_search=True)
+        # if copy, do copy
+        if action == res.NODE_FILE_ATT_ACTION_VAL_COPY:
+            src_path = get_file_or_dir_src_path(xml_path, place_holder_map, file_node)
+            dst_path = get_dst_path(xml_path, place_holder_map, file_node, src_path)
+            copy_file_or_dir(src_path, dst_path)
 
-        # start the copy process
-        if os.path.isfile(src_path):
-            fh.copy_file(src_path, dst_path, create_path_if_needed=True, overwrite_if_needed=True)
+        # if delete, do delete
+        elif action == res.NODE_FILE_ATT_ACTION_VAL_DELETE:
+            to_delete_files = get_files_or_dirs_src_paths(xml_path, place_holder_map, file_node)
+            delete_files_or_dirs(to_delete_files)
 
-        elif os.path.isdir(src_path):
-            fh.copy_dir(src_path, dst_path, overwrite_content_if_exists=True)
+
+def delete_files_or_dirs(to_delete_files):
+    for file in to_delete_files:
+        if os.path.isfile(file):
+            fh.remove_file(file)
+        if os.path.isdir(file):
+            fh.remove_dir(file)
+
+
+def get_file_or_dir_src_path(xml_path, place_holder_map, file_node):
+    if xh.get_child_nodes(file_node, shared_res.NODE_DIR_SRC):
+        return shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_SRC, file_search=False)
+    else:
+        return shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_SRC, file_search=True)
+
+
+def get_files_or_dirs_src_paths(xml_path, place_holder_map, file_node):
+    if xh.get_child_nodes(file_node, shared_res.NODE_DIR_SRC):
+        return shared_res.find_files_node_paths(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_SRC, file_search=False)
+    else:
+        return shared_res.find_files_node_paths(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_SRC, file_search=True)
+
+
+def get_dst_path(xml_path, place_holder_map, file_node, src_path):
+    # get the <file_dst> or the <dir_dst>
+    if xh.get_child_nodes(file_node, shared_res.NODE_DIR_DST):
+        return shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_DST, file_search=False)
+    else:
+        return shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_DST, src_path, file_search=True)
+
+
+def copy_file_or_dir(src_path, dst_path):
+    # start the delete process
+    if os.path.isfile(src_path):
+        fh.copy_file(src_path, dst_path, create_path_if_needed=True, overwrite_if_needed=True)
+    elif os.path.isdir(src_path):
+        fh.copy_dir(src_path, dst_path, overwrite_content_if_exists=True)

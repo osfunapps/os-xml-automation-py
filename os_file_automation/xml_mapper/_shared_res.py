@@ -17,8 +17,13 @@ NODE_NEW_TEXT = 'new_text'
 NODE_PATH = 'path'
 NODE_SEARCH_PATH = 'search_path'
 NODE_FULL_NAME = 'full_name'
+
 NODE_PREFIX = 'name_prefix'
+NODE_PREFIX_2 = 'prefix'    # added cause users tend to do that wrong
+
 NODE_SUFFIX = 'name_suffix'
+NODE_SUFFIX_2 = 'suffix'    # added cause users tend to do that wrong
+
 NODE_EXTENSION = 'extension'
 
 # file node types
@@ -27,7 +32,12 @@ NODE_DIR_DST = 'dir_dst'
 
 
 # will return the path to a given file node (src or dst)
-def get_file_node_path(xml_path, place_holder_map, file_node, node_name, previous_found_path=None, file_search=True):
+def get_file_node_path(xml_path,
+                       place_holder_map,
+                       file_node,
+                       node_name,
+                       previous_found_path=None,
+                       file_search=True):
     file_node = xh.get_child_nodes(file_node, node_name)[0]
     file_type = xh.get_node_att(file_node, PATH_TYPE)
 
@@ -43,6 +53,22 @@ def get_file_node_path(xml_path, place_holder_map, file_node, node_name, previou
     return tools.rel_path_to_abs(output_file_path, xml_path)
 
 
+# will return all of the files/directories which corresponds to the search in the node
+def find_files_node_paths(xml_path,
+                          place_holder_map,
+                          file_node,
+                          node_name,
+                          file_search=True):
+    file_node = xh.get_child_nodes(file_node, node_name)[0]
+
+    file_paths = find_search_path(place_holder_map, file_node, file_search=file_search, allow_multiple_files=True)
+
+    # fix paths if required
+    for i in range(0, len(file_paths)):
+        file_paths[i] = tools.rel_path_to_abs(file_paths[i], xml_path)
+    return file_paths
+
+
 # will return the normal of a file, after modified with the dictionary's place holders
 def find_normal_path(place_holder_map, file_node):
     file_path = xh.get_text_from_child_node(file_node, NODE_PATH)
@@ -53,14 +79,18 @@ def find_normal_path(place_holder_map, file_node):
 
 
 # will find the path of the file based on the user search params (full name, prefix, suffix and extension)
-def find_search_path(place_holder_map, file_node, file_search=True):
+def find_search_path(place_holder_map, file_node, file_search=True, allow_multiple_files=False):
     file_search_path = xh.get_text_from_child_node(file_node, NODE_SEARCH_PATH)
     for key, value in place_holder_map.items():
         file_search_path = file_search_path.replace(key, value)
 
     file_full_name = xh.get_text_from_child_node(file_node, NODE_FULL_NAME)
     file_prefix = xh.get_text_from_child_node(file_node, NODE_PREFIX)
+    if not file_prefix:
+        file_prefix = xh.get_text_from_child_node(file_node, NODE_PREFIX_2)
     file_suffix = xh.get_text_from_child_node(file_node, NODE_SUFFIX)
+    if not file_suffix:
+        file_suffix = xh.get_text_from_child_node(file_node, NODE_SUFFIX_2)
     file_extension = xh.get_text_from_child_node(file_node, NODE_EXTENSION)
 
     if file_full_name:
@@ -95,6 +125,10 @@ def find_search_path(place_holder_map, file_node, file_search=True):
     file_idx = 0
     if not files_found:
         raise IOError(f"ERROR: couldn't find the file/directory with these props:\nFull Name: '{file_full_name}'\nPrefix: '{file_prefix}'\nSuffix: '{file_suffix}'\nextension: '{file_extension}'")
+
+    if allow_multiple_files:
+        return files_found
+
     if len(files_found) > 1:
         print()
         print(f"WARNING: there are {len(files_found)} files/directories which corresponds to the search path '{file_search_path}' with these props:\nFull Name: '{file_full_name}'\nPrefix: '{file_prefix}'\nSuffix: '{file_suffix}'\nextension: '{file_extension}'")

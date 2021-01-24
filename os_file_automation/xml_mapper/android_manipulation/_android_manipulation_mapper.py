@@ -3,13 +3,12 @@ from os_file_automation.xml_mapper import _shared_res as shared_res
 import os_file_handler.file_handler as fh
 import os
 from os_tools import tools as tools
-from os_file_automation.xml_mapper.xcode_manipulation import res as res
 
 
 # manipulate an xcode project by an xml properties file
 def manipulate(xml_path, xml, place_holder_map):
-    from os_xcode_tools import xcode_project_manipulator as xpm
     root_node = xh.get_root_node(xml)
+
     add_extension_nodes(xml_path, place_holder_map, root_node, xml)
     # xh.save_xml_file(xml, '/Users/home/Programming/Python/modules/general/os_file_automation/examples/xcode_mapper2.xml')
     project_properties_node = xh.get_child_nodes(root_node, 'project_properties')[0]
