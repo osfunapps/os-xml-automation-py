@@ -16,7 +16,7 @@ Will copy/delete directory/file by an absolute/relative/dynamic path defined by 
 ![xml example of copy](/examples/file_mapper/file_mapper_xml_copy.xml)
 
 
-![xml delete example](/examples/file_mapper/file_mapper_xml_example_2.xml)
+![xml delete example](/examples/file_mapper/file_mapper_xml_delete.xml)
 
 After your created the xml file, call it from code:
     
