@@ -13,8 +13,8 @@ Install via pip:
    
 Will copy/delete directory/file by an absolute/relative/dynamic path defined by an xml file.
 
-- ![xml example of copy](/examples/file_mapper/file_mapper_xml_copy.xml)
-- ![xml delete example](/examples/file_mapper/file_mapper_xml_delete.xml)
+- ![xml example 1](/examples/file_mapper/file_mapper_xml_copy.xml)
+- ![xml example 2](/examples/file_mapper/file_mapper_xml_delete.xml)
 
 After your created the xml file, call it from code:
     

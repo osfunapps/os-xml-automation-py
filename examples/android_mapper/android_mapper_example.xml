@@ -1,0 +1,188 @@
+<android_properties>
+
+    <project_properties>
+        <project_root></project_root>
+        <package_name></package_name>
+        <app_name></app_name>
+        <!-- the launcher_path should be:
+        ````main:
+        `````````ic_launcher-playstore.png
+        `````````res:
+        ``````````mipmap-anydpi-v26:
+        ````````````````ic_launcher_round.png
+        ````````````````ic_launcher.png
+        ...and all of the other mimaps.....
+        -->
+        <launcher_path>$app_path/files/res/logo/main</launcher_path>
+    </project_properties>
+
+
+    <!-- step 0 will auto delete launcher files and set the new ones. It will also set the app's name -->
+
+    <!-- in step 1 we will run the text mapper to clear any changes done in the project's files -->
+    <step_1>
+        <run_text_mapper>
+            <file_src>
+                <path>./clean_text_mapper.xml</path>
+            </file_src>
+            <place_holder_map>
+                <arg>
+                    <key>$project_path</key>
+                    <value>$project_path</value>
+                </arg>
+            </place_holder_map>
+        </run_text_mapper>
+    </step_1>
+
+    <!-- add dependencies -->
+    <step_2>
+        <gradle_dependencies action="append">
+            <dependency_line>implementation("com.squareup.okhttp3:okhttp:4.9.0")</dependency_line>
+        </gradle_dependencies>
+    </step_2>
+
+
+    <!-- in step 2 we will run the text mapper to clear any changes done in files. The text mapper will do the changes -->
+
+
+    <!--    &lt;!&ndash; in step 3, we will unlink all of the previously used resources &ndash;&gt;-->
+    <!--    <step_3>-->
+    <!--        <unlink type="dir" delete="false">GeneralRemoteiOS/Dynamic Resources</unlink>-->
+    <!--        <unlink type="file" delete="false">GeneralRemoteiOS/GoogleService-Info.plist</unlink>-->
+    <!--    </step_3>-->
+
+
+    <!--    &lt;!&ndash; in step 4, we will link all of the resources &ndash;&gt;-->
+    <!--    <step_4>-->
+
+    <!--        &lt;!&ndash; copy google services &ndash;&gt;-->
+    <!--        <link>-->
+    <!--            <file_src path_type="search">-->
+
+    <!--                <search_path>$app_path</search_path>-->
+    <!--                <full_name>GoogleService-Info.plist</full_name>-->
+    <!--            </file_src>-->
+
+    <!--            <file_dst>-->
+    <!--                <path>GeneralRemoteiOS/GoogleService-Info.plist</path>-->
+    <!--            </file_dst>-->
+    <!--        </link>-->
+
+    <!--        &lt;!&ndash;copy main dir&ndash;&gt;-->
+    <!--        <link>-->
+    <!--            <dir_src>-->
+    <!--                <path>$app_path/Main</path>-->
+    <!--            </dir_src>-->
+
+    <!--            <dir_dst>-->
+    <!--                <path>GeneralRemoteiOS/Dynamic Resources/Main</path>-->
+    <!--            </dir_dst>-->
+    <!--        </link>-->
+
+    <!--        &lt;!&ndash; copy smart adapters dir &ndash;&gt;-->
+    <!--        <link>-->
+    <!--            <dir_src path_type="search">-->
+    <!--                <search_path>$app_path</search_path>-->
+    <!--                <full_name>adapters</full_name>-->
+    <!--            </dir_src>-->
+
+    <!--            <dir_dst>-->
+    <!--                <path>GeneralRemoteiOS/Dynamic Resources/Smart Adapters</path>-->
+    <!--            </dir_dst>-->
+    <!--        </link>-->
+
+    <!--        &lt;!&ndash; copy zips dir &ndash;&gt;-->
+    <!--        <link>-->
+    <!--            <dir_src path_type="search">-->
+    <!--                <search_path>$app_path</search_path>-->
+    <!--                <full_name>zips</full_name>-->
+    <!--            </dir_src>-->
+
+    <!--            <dir_dst>-->
+    <!--                <path>GeneralRemoteiOS/Dynamic Resources/Remotes</path>-->
+    <!--            </dir_dst>-->
+    <!--        </link>-->
+    <!--    </step_4>-->
+
+    <!--    &lt;!&ndash; step 4 will attach all of the pods and frameworks &ndash;&gt;-->
+    <!--    <step_4>-->
+
+    <!--        <pods action="clear_and_append">-->
+    <!--            <pod_line># Comment the next line if you're not using Swift and don't want to use dynamic frameworks</pod_line>-->
+    <!--            <pod_line>use_frameworks!</pod_line>-->
+    <!--            <pod_line># Pods for GeneralRemoteiOS</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># MARK: - general pods</pod_line>-->
+    <!--            <pod_line>platform :ios, '12.0'</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># to open the zips</pod_line>-->
+    <!--            <pod_line>source 'https://github.com/CocoaPods/Specs.git'</pod_line>-->
+    <!--            <pod_line>pod 'Zip', '~> 1.1'</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># xml parser</pod_line>-->
+    <!--            <pod_line>pod 'SWXMLHash', '~> 5.0.0'</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># carousel for the select remote controller</pod_line>-->
+    <!--            <pod_line>pod 'FSPagerView'</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># reachability, to get wifi events</pod_line>-->
+    <!--            <pod_line>pod 'ReachabilitySwift'</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># loading view and toast</pod_line>-->
+    <!--            <pod_line>pod 'MBProgressHUD', '~> 1.2.0'</pod_line>-->
+    <!--            <pod_line>pod 'Toast-Swift', '~> 5.0.1'</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># fab</pod_line>-->
+    <!--            <pod_line>pod 'Floaty', '~> 4.2.0'</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># firebase</pod_line>-->
+    <!--            <pod_line>pod 'Firebase/Analytics'</pod_line>-->
+    <!--            <pod_line>pod 'Firebase/Crashlytics'</pod_line>-->
+    <!--            <pod_line>pod 'Firebase/RemoteConfig'</pod_line>-->
+    <!--            <pod_line>pod 'Firebase/Database'</pod_line>-->
+    <!--            <pod_line>pod 'Firebase/Auth'</pod_line>-->
+    <!--            <pod_line>pod 'Google-Mobile-Ads-SDK'  # ads</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># drawer</pod_line>-->
+    <!--            <pod_line>pod 'SideMenu'</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># connectSDK for discovery of devices and connect to LG</pod_line>-->
+    <!--            <pod_line>pod 'ConnectSDK/Core', :git => 'https://github.com/osfunapps/osapps-Connect-SDK-iOS.git', :branch => 'master' # general</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># in-app purchases</pod_line>-->
+    <!--            <pod_line>pod 'SwiftyStoreKit'</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># youtube</pod_line>-->
+    <!--            <pod_line>pod 'youtube-ios-player-helper', '~> 0.1.6'</pod_line>-->
+    <!--            <pod_line>pod 'PureLayout'</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># os tools</pod_line>-->
+    <!--            <pod_line>pod 'OsUIViews'</pod_line>-->
+    <!--            <pod_line>pod 'OsTools'</pod_line>-->
+    <!--            <pod_line/>-->
+    <!--            <pod_line># MARK: - adapter pods</pod_line>-->
+    <!--        </pods>-->
+
+    <!--        <frameworks>-->
+
+    <!--            &lt;!&ndash; will hold all of the frameworks which corresponded to all of the adapters &ndash;&gt;-->
+    <!--            <framework>-->
+    <!--                <path>AudioToolbox.framework</path>-->
+    <!--                <type>system</type>-->
+    <!--            </framework>-->
+
+    <!--            <framework>-->
+    <!--                <path>ExternalAccessory.framework</path>-->
+    <!--                <type>system</type>-->
+    <!--            </framework>-->
+    <!--            <framework>-->
+    <!--                <path>StoreKit.framework</path>-->
+    <!--                <type>system</type>-->
+    <!--            </framework>-->
+
+    <!--        </frameworks>-->
+
+    <!--    </step_4>-->
+
+
+</android_properties>
