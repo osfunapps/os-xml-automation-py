@@ -10,7 +10,7 @@ Install via pip:
 
 ## File handling automation:
    
-Just create a xml file with all the actions you want to do (copy/delete a directory/file by an absolute/relative/dynamic path)
+Will copy/delete directories/files defined by a xml map file.
 
 - [xml example](/examples/file_mapper/example.xml):
 
@@ -100,6 +100,7 @@ Just create a xml file with all the actions you want to do (copy/delete a direct
 After your created the xml file, call it from code:
     
     from os_xml_automation import xml_automation as xm
+
     xm.manipulate_files_by_xml(xml_path='path/to/xml', place_holder_map= {'$project_path': 'the/path/to/my/project/path'})
 
 ## Text automation
