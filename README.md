@@ -110,9 +110,8 @@ Will copy/append/replace/delete text defined by a xml map file.
 - [xml example](/examples/text_mapper/example.xml):
 ```xml
 <root>
-
-
-    <!-- example 2 -->
+    
+    <!-- example 1 -->
     <!-- the tag name of the files can be whatever you want -->
     <faces_file>
 
@@ -144,17 +143,22 @@ Will copy/append/replace/delete text defined by a xml map file.
 
             <!-- delete_range will remove text between boundaries -->
             <text action="delete_range" include_boundaries="true">
-                <original_text>range delete start</original_text>
-                <new_text>range delete end</new_text>
+                <from_text>range delete start</from_text>
+                <to_text>range delete end</to_text>
             </text>
 
-
+            <!-- set_in_range will remove the text in a range and set a new text instead -->
+            <text action="set_in_range">
+                <from_text>range delete start</from_text>
+                <to_text>range delete end</to_text>
+                <new_text>this text is inside the range 🔥🔥</new_text>
+            </text>
 
         </texts>
     </faces_file>
 
 
-    <!-- example 3 -->
+    <!-- example 2 -->
     <!-- the tag name of the files can be whatever you want -->
     <people_file>
         <file_src path_type="search">
@@ -177,6 +181,29 @@ Will copy/append/replace/delete text defined by a xml map file.
             </text>
         </texts>
     </people_file>
+
+    <!-- example 3 -->
+    <bounderies_file>
+        <file_src path_type="search">
+
+            <!-- this example shows the use of place holders. The place holders values could be defined via code and replace the place holders in the xml, during runtime.
+            in this example $project_path could be defined during runtime to be whatever path you want (even relative) -->
+            <search_path>$project_path</search_path>
+            <full_name>people_names.swift</full_name>
+        </file_src>
+        <file_dst path_type="as_src" />
+        <texts>
+            <text action="replace">
+                <!-- place holders can be used wherever you want. Event in the text you look for! -->
+                <original_text>$first_person_name</original_text>
+                <new_text>Johnny the tool 😼</new_text>
+            </text>
+            <text action="below_line">
+                <original_text>craig the $craig_last_name</original_text>
+                <new_text>Osama bin gladden 👳 is below craig $craig_last_name</new_text>
+            </text>
+        </texts>
+    </bounderies_file>
 
 </root>
 ```
