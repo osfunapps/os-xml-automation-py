@@ -2,34 +2,12 @@ import os_file_handler.file_handler as fh
 from os_xml_handler import xml_handler as xh
 from os_tools import tools as tools
 
-ACTION = 'action'
-PATH_TYPE = 'path_type'
-PATH_TYPE_SEARCH = 'search'
-PATH_TYPE_AS_SRC = 'as_src'
+import os_xml_automation.shared_res as res
 
-# root children
-NODE_FILE_SRC = 'file_src'
-NODE_FILE_DST = 'file_dst'
-NODE_ORIGINAL_TEXT = 'original_text'
-NODE_NEW_TEXT = 'new_text'
 
-# file node children
-NODE_PATH = 'path'
-NODE_SEARCH_PATH = 'search_path'
-NODE_FULL_NAME = 'full_name'
-
-NODE_PREFIX = 'name_prefix'
-NODE_PREFIX_2 = 'prefix'    # added cause users tend to do that wrong
-
-NODE_SUFFIX = 'name_suffix'
-NODE_SUFFIX_2 = 'suffix'    # added cause users tend to do that wrong
-
-NODE_EXTENSION = 'extension'
-
-# file node types
-NODE_DIR_SRC = 'dir_src'
-NODE_DIR_DST = 'dir_dst'
-
+######################################################################
+# This class meant to provide support for other automation libraries #
+######################################################################
 
 # will return the path to a given file node (src or dst)
 def get_file_node_path(xml_path,
@@ -39,12 +17,12 @@ def get_file_node_path(xml_path,
                        previous_found_path=None,
                        file_search=True):
     file_node = xh.get_child_nodes(file_node, node_name)[0]
-    file_type = xh.get_node_att(file_node, PATH_TYPE)
+    file_type = xh.get_node_att(file_node, res.PATH_TYPE)
 
-    if file_type == PATH_TYPE_AS_SRC:
+    if file_type == res.PATH_TYPE_AS_SRC:
         output_file_path = previous_found_path
 
-    elif file_type == PATH_TYPE_SEARCH:
+    elif file_type == res.PATH_TYPE_SEARCH:
         output_file_path = find_search_path(place_holder_map, file_node, file_search)
     else:
         output_file_path = find_normal_path(place_holder_map, file_node)
@@ -71,7 +49,7 @@ def find_files_node_paths(xml_path,
 
 # will return the normal of a file, after modified with the dictionary's place holders
 def find_normal_path(place_holder_map, file_node):
-    file_path = xh.get_text_from_child_node(file_node, NODE_PATH)
+    file_path = xh.get_text_from_child_node(file_node, res.NODE_PATH)
     for key, value in place_holder_map.items():
         file_path = file_path.replace(key, value)
 
@@ -80,18 +58,18 @@ def find_normal_path(place_holder_map, file_node):
 
 # will find the path of the file based on the user search params (full name, prefix, suffix and extension)
 def find_search_path(place_holder_map, file_node, file_search=True, allow_multiple_files=False):
-    file_search_path = xh.get_text_from_child_node(file_node, NODE_SEARCH_PATH)
+    file_search_path = xh.get_text_from_child_node(file_node, res.NODE_SEARCH_PATH)
     for key, value in place_holder_map.items():
         file_search_path = file_search_path.replace(key, value)
 
-    file_full_name = xh.get_text_from_child_node(file_node, NODE_FULL_NAME)
-    file_prefix = xh.get_text_from_child_node(file_node, NODE_PREFIX)
+    file_full_name = xh.get_text_from_child_node(file_node, res.NODE_FULL_NAME)
+    file_prefix = xh.get_text_from_child_node(file_node, res.NODE_PREFIX)
     if not file_prefix:
-        file_prefix = xh.get_text_from_child_node(file_node, NODE_PREFIX_2)
-    file_suffix = xh.get_text_from_child_node(file_node, NODE_SUFFIX)
+        file_prefix = xh.get_text_from_child_node(file_node, res.NODE_PREFIX_2)
+    file_suffix = xh.get_text_from_child_node(file_node, res.NODE_SUFFIX)
     if not file_suffix:
-        file_suffix = xh.get_text_from_child_node(file_node, NODE_SUFFIX_2)
-    file_extension = xh.get_text_from_child_node(file_node, NODE_EXTENSION)
+        file_suffix = xh.get_text_from_child_node(file_node, res.NODE_SUFFIX_2)
+    file_extension = xh.get_text_from_child_node(file_node, res.NODE_EXTENSION)
 
     if file_full_name:
         for key, value in place_holder_map.items():
@@ -150,3 +128,15 @@ def fill_place_holders(text, place_holder_map):
     for key, value in place_holder_map.items():
         text = text.replace(key, value)
     return text
+
+
+# will add all of the nodes from the extension file to the xml
+def add_extension_nodes(xml_path, place_holder_map, root_node, xml):
+    extension_mapper_path = xh.get_node_att(root_node, res.NODE_ROOT_ATT_EXTENSION_MAPPER_PATH)
+    if extension_mapper_path:
+        extension_mapper_path = tools.rel_path_to_abs(extension_mapper_path, xml_path)
+        extension_mapper_path = fill_place_holders(extension_mapper_path, place_holder_map)
+        extension_xml = xh.read_xml_file(extension_mapper_path)
+        return xh.merge_xml1_with_xml2(extension_xml, xml)
+    else:
+        return xml

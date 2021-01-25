@@ -1,6 +1,7 @@
 import os_xml_handler.xml_handler as xh
-from os_file_automation.xml_mapper import _shared_res as shared_res
-from os_file_automation.xml_mapper.file_manipulation import _file_manipulation_bank as res
+from os_xml_automation import shared_res as shared_res
+from os_xml_automation import shared_tools as shared_tools
+from os_xml_automation.file_manipulation import _res as res
 import os_file_handler.file_handler as fh
 import os
 
@@ -37,24 +38,24 @@ def delete_files_or_dirs(to_delete_files):
 
 def get_file_or_dir_src_path(xml_path, place_holder_map, file_node):
     if xh.get_child_nodes(file_node, shared_res.NODE_DIR_SRC):
-        return shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_SRC, file_search=False)
+        return shared_tools.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_SRC, file_search=False)
     else:
-        return shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_SRC, file_search=True)
+        return shared_tools.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_SRC, file_search=True)
 
 
 def get_files_or_dirs_src_paths(xml_path, place_holder_map, file_node):
     if xh.get_child_nodes(file_node, shared_res.NODE_DIR_SRC):
-        return shared_res.find_files_node_paths(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_SRC, file_search=False)
+        return shared_tools.find_files_node_paths(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_SRC, file_search=False)
     else:
-        return shared_res.find_files_node_paths(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_SRC, file_search=True)
+        return shared_tools.find_files_node_paths(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_SRC, file_search=True)
 
 
 def get_dst_path(xml_path, place_holder_map, file_node, src_path):
     # get the <file_dst> or the <dir_dst>
     if xh.get_child_nodes(file_node, shared_res.NODE_DIR_DST):
-        return shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_DST, file_search=False)
+        return shared_tools.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_DIR_DST, file_search=False)
     else:
-        return shared_res.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_DST, src_path, file_search=True)
+        return shared_tools.get_file_node_path(xml_path, place_holder_map, file_node, shared_res.NODE_FILE_DST, src_path, file_search=True)
 
 
 def copy_file_or_dir(src_path, dst_path):
