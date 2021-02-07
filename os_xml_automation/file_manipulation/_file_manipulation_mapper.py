@@ -63,4 +63,4 @@ def copy_file_or_dir(src_path, dst_path):
     if os.path.isfile(src_path):
         fh.copy_file(src_path, dst_path, create_path_if_needed=True, overwrite_if_needed=True)
     elif os.path.isdir(src_path):
-        fh.copy_dir(src_path, dst_path, overwrite_content_if_exists=True)
+        fh.copy_dir(src_path, dst_path)

@@ -98,11 +98,11 @@ Will copy/delete directories/files defined by a xml map file.
 </root>
 ```
 After your created the xml file, call it from code:
-    
-    from os_xml_automation import xml_automation as xm
+```python    
+from os_xml_automation import xml_automation as xm
 
-    xm.manipulate_files_by_xml(xml_path='path/to/xml', place_holder_map= {'$project_path': 'the/path/to/my/project/path'})
-
+xm.manipulate_files_by_xml(xml_path='path/to/xml', place_holder_map= {'$project_path': 'the/path/to/my/project/path'})
+```
 ## Text automation
 
 Will copy/append/replace/delete text defined by a xml map file.
@@ -210,14 +210,14 @@ Will copy/append/replace/delete text defined by a xml map file.
 NOTICE: It doesn't matter what the tag names of the file nodes (the direct children of the root). 
     
 To use:
-    
-    from os_xml_automation import xml_automation as xm
+```python
+from os_xml_automation import xml_automation as xm
  
-    xm.set_texts_by_xml(xml_path='path/to/xml',
-                        place_holder_map= {'$project_path': 'the/path/to/my/project/path',
-                                                                      $first_person_name': 'Johnny boy',
-                                                                     '$second_person_name': 'Craig and Josh'})
-
+xm.set_texts_by_xml(xml_path='path/to/xml',
+                    place_holder_map={'$project_path': 'the/path/to/my/project/path',
+                                        '$first_person_name': 'Johnny boy',
+                                       '$second_person_name': 'Craig and Josh'})
+```
 And more...
 
 

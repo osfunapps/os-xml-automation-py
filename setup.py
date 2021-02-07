@@ -2,8 +2,10 @@ from distutils.core import setup
 
 setup(
     name='os_xml_automation',  # How you named your package folder (MyLib)
-    packages=['os_xml_automation'],  # Choose the same as "name"
-    version='1.0',  # Start with a small number and increase it with every change you make
+    packages=['os_xml_automation',
+              'os_xml_automation.file_manipulation',
+              'os_xml_automation.text_manipulation'],  # Choose the same as "name"
+    version='1.22',  # Start with a small number and increase it with every change you make
     license='MIT',  # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     description='py automation tools for os',  # Give a short description about your library
     author='Oz Shabat',  # Type in your name
@@ -23,5 +25,6 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.9',
     ],
 )
